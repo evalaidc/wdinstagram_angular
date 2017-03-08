@@ -15,7 +15,11 @@ let gramData = [
 angular
   .module("wdinstagram", ["ui.router"])
   .config(["$stateProvider", RouterFunction])
+  .factory("GramFactory", [
+    GramFactoryFunction
+  ])
   .controller("GramIndexController", [
+    "GramFactory",
     GramIndexControllerFunction
   ])
   .controller("GramShowController", [
@@ -40,9 +44,16 @@ angular
     })
   }
 
+  function GramFactoryFunction(){
+    return {
+      helloWorld: function(){
+        console.log("Hello World")
+      }
+    }
+  }
 
-  function GramIndexControllerFunction() {
-    this.grams = gramData;
+  function GramIndexControllerFunction(GramFactory) {
+    GramFactory.helloWorld();
   }
 
   function GramShowControllerFunction($stateParams) {
