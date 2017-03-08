@@ -13,9 +13,13 @@ let gramData = [
 
 
 angular
-  .module("wdinstagram", ["ui.router"])
+  .module("wdinstagram", [
+    "ui.router",
+    "ngResource"
+  ])
   .config(["$stateProvider", RouterFunction])
   .factory("GramFactory", [
+    "$resource",
     GramFactoryFunction
   ])
   .controller("GramIndexController", [
@@ -23,6 +27,7 @@ angular
     GramIndexControllerFunction
   ])
   .controller("GramShowController", [
+    "GramFactory",
     "$stateParams",
     GramShowControllerFunction
   ])
@@ -44,18 +49,14 @@ angular
     })
   }
 
-  function GramFactoryFunction(){
-    return {
-      helloWorld: function(){
-        console.log("Hello World")
-      }
-    }
+  function GramFactoryFunction($resource){
+    return  $resource("http://localhost:3000/entries/:id")
   }
 
   function GramIndexControllerFunction(GramFactory) {
-    GramFactory.helloWorld();
+    this.grams = GramFactory.query();
   }
 
-  function GramShowControllerFunction($stateParams) {
-    this.gram = gramData[$stateParams.id];
+  function GramShowControllerFunction(GramFactory, $stateParams) {
+    this.gram = GramFactory.get({id: $stateParams.id});
   }

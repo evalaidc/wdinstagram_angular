@@ -1,6 +1,6 @@
 <h2> Wdinstagram Photos </h2>
 
-<div data-ng-repeat='gram in vm.grams'>
+<div data-ng-repeat='gram in vm.grams | orderBy: "-created_at"'>
   <p><a data-ui-sref="gramShow({id: gram.id})"><img data-ng-src="{{gram.photo_url}}" ></a></p>
 
 </div>
