@@ -36,6 +36,12 @@ angular
     "$stateParams",
     GramShowControllerFunction
   ])
+  .controller("GramEditController", [
+    "GramFactory",
+    "$stateParams",
+    "$state",
+    GramEditControllerFunction
+  ])
 
 
   function RouterFunction($stateProvider){
@@ -58,10 +64,18 @@ angular
       controller: "GramShowController",
       controllerAs: "vm"
     })
+    .state("gramEdit", {
+      url: "/grams/:id/edit",
+      templateUrl: "js/ng-views/edit.html",
+      controller: "GramEditController",
+      controllerAs: "vm"
+    })
   }
 
   function GramFactoryFunction($resource){
-    return  $resource("http://localhost:3000/entries/:id")
+    return  $resource("http://localhost:3000/entries/:id", {}, {
+      update: {method: "PUT"}
+    })
   }
 
   function GramIndexControllerFunction(GramFactory) {
@@ -79,4 +93,18 @@ angular
 
   function GramShowControllerFunction(GramFactory, $stateParams) {
     this.gram = GramFactory.get({id: $stateParams.id});
+  }
+
+  function GramEditControllerFunction(GramFactory, $stateParams, $state) {
+    this.gram = GramFactory.get({id: $stateParams.id});
+    this.update = function(){
+      this.gram.$update({id: $stateParams.id}, function(gram) {
+        $state.go("gramShow", {id: gram.id})
+      })
+    }
+    this.destroy = function(){
+      this.gram.$delete({id: $stateParams.id}, function(gram){
+        $state.go("gramIndex")
+      })
+    }
   }
