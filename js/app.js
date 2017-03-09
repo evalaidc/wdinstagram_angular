@@ -103,7 +103,7 @@ angular
       })
     }
     this.destroy = function(){
-      this.gram.$delete({id: $stateParams.id}, function(gram){
+      this.gram.$delete({id: $stateParams.id}, function(){
         $state.go("gramIndex")
       })
     }

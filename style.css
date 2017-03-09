@@ -1,3 +1,35 @@
 img {
   height: 200px;
 }
+
+body {
+  display: block;
+  text-align: center;
+  font-family: 'Rubik Mono One', sans-serif;
+}
+/*main {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: auto;
+}*/
+
+button {
+  color: white;
+  margin: 10px 5px;
+}
+
+form {
+  display: block;
+  text-align: center;
+}
+
+input {
+  width: 400px;
+  margin: 10px auto;
+}
+
+textarea {
+  margin: 5px auto;
+  width: 400px;
+}
