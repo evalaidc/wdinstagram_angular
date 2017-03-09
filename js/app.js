@@ -26,6 +26,11 @@ angular
     "GramFactory",
     GramIndexControllerFunction
   ])
+  .controller("GramNewController", [
+    "GramFactory",
+    "$state",
+    GramNewControllerFunction
+  ])
   .controller("GramShowController", [
     "GramFactory",
     "$stateParams",
@@ -39,6 +44,12 @@ angular
       url: "/grams",
       templateUrl: "js/ng-views/index.html",
       controller: "GramIndexController",
+      controllerAs: "vm"
+    })
+    .state("gramNew", {
+      url: "/grams/new",
+      templateUrl: "js/ng-views/new.html",
+      controller: "GramNewController",
       controllerAs: "vm"
     })
     .state("gramShow", {
@@ -55,6 +66,15 @@ angular
 
   function GramIndexControllerFunction(GramFactory) {
     this.grams = GramFactory.query();
+  }
+
+  function GramNewControllerFunction(GramFactory, $state){
+    this.gram = new GramFactory();
+    this.create = function(){
+      this.gram.$save(function(gram) {
+      $state.go("gramShow", {id: gram.id})
+    })
+    }
   }
 
   function GramShowControllerFunction(GramFactory, $stateParams) {
